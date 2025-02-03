@@ -8,7 +8,11 @@
 ** Location: main.cpp
 ** Description:   initial setup for the device
 ***************************************************************************************/
-void _setup_gpio() { }
+void _setup_gpio() {
+    pinMode(DW_BTN, INPUT_PULLUP);
+    pinMode(UP_BTN, INPUT_PULLUP);
+    pinMode(SEL_BTN, INPUT_PULLUP);
+}
 
 
 /***************************************************************************************
