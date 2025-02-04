@@ -39,20 +39,20 @@ void InputHandler(void) {
         if(!wakeUpScreen()) AnyKeyPress = true;
         else goto END;
     }    
-    if(digitalRead(UP_BTN)==LOW) {
+    if(digitalRead(UP_BTN)==HIGH) {
         PrevPress = true;
         EscPress = true;
     }
-    if(digitalRead(DW_BTN)==LOW) {
+    if(digitalRead(DW_BTN)==HIGH) {
         NextPress = true;
     }
-    if(digitalRead(SEL_BTN)==LOW) {
+    if(digitalRead(SEL_BTN)==HIGH) {
         SelPress = true;
     }
     END:
     if(AnyKeyPress) {
       long tmp=millis();
-      while((millis()-tmp)<200 && (digitalRead(UP_BTN)==LOW || digitalRead(SEL_BTN)==LOW || digitalRead(DW_BTN)==LOW));
+      while((millis()-tmp)<200 && (digitalRead(UP_BTN)==HIGH || digitalRead(SEL_BTN)==HIGH || digitalRead(DW_BTN)==HIGH));
     }
 }
 
