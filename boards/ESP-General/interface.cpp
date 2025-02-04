@@ -8,12 +8,11 @@
 ** Location: main.cpp
 ** Description:   initial setup for the device
 ***************************************************************************************/
-void _setup_gpio() {
-    pinMode(DW_BTN, INPUT_PULLUP);
-    pinMode(UP_BTN, INPUT_PULLUP);
+void _setup_gpio() { 
+    pinMode(UP_BTN, INPUT_PULLUP);   // Sets the power btn as an INPUT
     pinMode(SEL_BTN, INPUT_PULLUP);
+    pinMode(DW_BTN, INPUT_PULLUP);
 }
-
 
 /***************************************************************************************
 ** Function name: getBattery()
@@ -35,7 +34,27 @@ void _setBrightness(uint8_t brightval) { }
 ** Function: InputHandler
 ** Handles the variables PrevPress, NextPress, SelPress, AnyKeyPress and EscPress
 **********************************************************************/
-void InputHandler(void) { }
+void InputHandler(void) {
+    if(digitalRead(UP_BTN)==LOW || digitalRead(SEL_BTN)==LOW || digitalRead(DW_BTN)==LOW) {
+        if(!wakeUpScreen()) AnyKeyPress = true;
+        else goto END;
+    }    
+    if(digitalRead(UP_BTN)==LOW) {
+        PrevPress = true;
+        EscPress = true;
+    }
+    if(digitalRead(DW_BTN)==LOW) {
+        NextPress = true;
+    }
+    if(digitalRead(SEL_BTN)==LOW) {
+        SelPress = true;
+    }
+    END:
+    if(AnyKeyPress) {
+      long tmp=millis();
+      while((millis()-tmp)<200 && (digitalRead(UP_BTN)==LOW || digitalRead(SEL_BTN)==LOW || digitalRead(DW_BTN)==LOW));
+    }
+}
 
 /*********************************************************************
 ** Function: powerOff
