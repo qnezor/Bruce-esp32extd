@@ -9,7 +9,7 @@
 ** Description:   initial setup for the device
 ***************************************************************************************/
 void _setup_gpio() { 
-    pinMode(UP_BTN, INPUT_PULLUP);   // Sets the power btn as an INPUT
+    pinMode(UP_BTN, INPUT_PULLUP);
     pinMode(SEL_BTN, INPUT_PULLUP);
     pinMode(DW_BTN, INPUT_PULLUP);
 }
@@ -35,15 +35,15 @@ void _setBrightness(uint8_t brightval) { }
 ** Handles the variables PrevPress, NextPress, SelPress, AnyKeyPress and EscPress
 **********************************************************************/
 void InputHandler(void) {
-    if(digitalRead(UP_BTN)==LOW || digitalRead(SEL_BTN)==LOW || digitalRead(DW_BTN)==LOW) {
+    if(digitalRead(UP_BTN)==LOW || digitalRead(SEL_BTN)==HIGH || digitalRead(DW_BTN)==LOW) {
         if(!wakeUpScreen()) AnyKeyPress = true;
         else goto END;
     }    
-    if(digitalRead(UP_BTN)==HIGH) {
+    if(digitalRead(UP_BTN)==LOW) {
         PrevPress = true;
         EscPress = true;
     }
-    if(digitalRead(DW_BTN)==HIGH) {
+    if(digitalRead(DW_BTN)==LOW) {
         NextPress = true;
     }
     if(digitalRead(SEL_BTN)==HIGH) {
@@ -52,7 +52,7 @@ void InputHandler(void) {
     END:
     if(AnyKeyPress) {
       long tmp=millis();
-      while((millis()-tmp)<200 && (digitalRead(UP_BTN)==HIGH || digitalRead(SEL_BTN)==HIGH || digitalRead(DW_BTN)==HIGH));
+      while((millis()-tmp)<200 && (digitalRead(UP_BTN)==LOW || digitalRead(SEL_BTN)==HIGH || digitalRead(DW_BTN)==LOW));
     }
 }
 
